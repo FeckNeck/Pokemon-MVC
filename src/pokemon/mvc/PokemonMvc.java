@@ -5,17 +5,8 @@
  */
 
 package pokemon.mvc;
-
-import java.io.BufferedReader;
-
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import model.ApiRequest;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import vue.MainWindow;
 
 
 /**
@@ -23,11 +14,10 @@ import org.json.JSONObject;
  * @author FeckNeck
  */
 public class PokemonMvc {
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws Exception {
-        ApiRequest api = new ApiRequest();
+
+    public static void main(String[] args) throws IOException{
+        MainWindow fen=new MainWindow(); 
+        fen.setVisible(true);
     }
     
 }

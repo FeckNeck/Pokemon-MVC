@@ -14,24 +14,24 @@ import java.util.ArrayList;
 public class Pokemon {
     private int id;
     private String name;
-    private String generation;
+    private int generation;
+    private int hp;
+    private int attack;
+    private int defense;
     private ArrayList<String> types;
-    private ArrayList<Integer> stats;
 
-    public Pokemon(int id, String name, String generation) {
+    public Pokemon(int id, String name, int generation, int hp, int attack, int defense) {
         this.id = id;
         this.name = name;
         this.generation = generation;
+        this.hp = hp;
+        this.attack = attack;
+        this.defense = defense;
         this.types = new ArrayList<>();
-        this.stats = stats = new ArrayList<>();
     }
-    
+
     public void addType(String type){
         types.add(type);
-    }
-    
-    public void addStat(Integer stat){
-        stats.add(stat);
     }
 
     public int getId() {
@@ -50,12 +50,36 @@ public class Pokemon {
         this.name = name;
     }
 
-    public String getGeneration() {
+    public int getGeneration() {
         return generation;
     }
 
-    public void setGeneration(String generation) {
+    public void setGeneration(int generation) {
         this.generation = generation;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
     }
 
     public ArrayList<String> getTypes() {
@@ -66,20 +90,14 @@ public class Pokemon {
         this.types = types;
     }
 
-    public ArrayList<Integer> getStats() {
-        return stats;
-    }
-
-    public void setStats(ArrayList<Integer> stats) {
-        this.stats = stats;
-    }
-
     @Override
     public String toString() {
-        return "Pokemon{" + "id=" + id + ", name=" + name + ", generation=" + generation + ", types=" + types + ", stats=" + stats + '}';
+        String ch = "Pokemon{" + "id=" + id + ", name=" + name + ", generation=" + generation + ", hp=" + hp + ", attack=" + attack + ", defense=" + defense + ", types=";
+        for(int i = 0 ; i < types.size() ; i++){
+            ch += types.get(i) + " ";
+        }
+        ch += "}";
+        return ch;
     }
-
-
-    
-    
+  
 }

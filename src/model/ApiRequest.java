@@ -21,15 +21,17 @@ import org.json.JSONObject;
  */
 public final class ApiRequest {
     
-    private static final String URL_POKEMON = "https://pokebuildapi.fr/api/v1/pokemon/limit/100";
+    private static final String URL_POKEMON = "https://pokebuildapi.fr/api/v1/pokemon/limit/10";
+    private static final String URL_TYPES = "https://pokebuildapi.fr/api/v1/types";
+    
     private final Pokedex pokedex;
+    private ArrayList<String> types;
     
     public ApiRequest() {
         pokedex = new Pokedex();
-        fetchApi();
     }
     
-    public void fetchApi(){
+    public void fetchPokemons(){
         try {
             URL url = new URL(URL_POKEMON);
             HttpURLConnection  urlConnection = (HttpURLConnection) url.openConnection();
@@ -50,17 +52,25 @@ public final class ApiRequest {
                     JSONObject pokeObject = object.getJSONObject(i);
                     
                     int id = pokeObject.getInt("pokedexId");
+                    int generation = pokeObject.getInt("apiGeneration");
                     String name = pokeObject.getString("name");
-                    String generation = pokeObject.getString("generation");
-                    Pokemon pokemon = new Pokemon(id, name, generation);
+                    
+                    JSONObject stats = pokeObject.getJSONObject("stats");
+                    
+                    int hp = stats.getInt("HP");
+                    int attack = stats.getInt("attack");
+                    int defense = stats.getInt("defense");
+                    Pokemon pokemon = new Pokemon(id, name, generation, hp, attack, defense);
                     
                     JSONArray types = pokeObject.getJSONArray("apiTypes");
                     for(int j = 0 ; j < types.length() ; j++){
-                        JSONObject xd = (JSONObject) types.get(j);
-                        System.out.println(xd.get("name"));
+                        JSONObject type = (JSONObject) types.get(j);
+                        pokemon.addType(type.getString("name"));
                     }
+                    
+                    pokedex.addPokemon(pokemon);
                 }
-                in.close();   // et on ferme le flux
+                in.close();
             }
         } catch (MalformedURLException e) {
             System.out.println(e + "pb url");
@@ -69,4 +79,43 @@ public final class ApiRequest {
         }
     }
     
+    public void fetchTypes(){
+         try {
+            URL url = new URL(URL_TYPES);
+            HttpURLConnection  urlConnection = (HttpURLConnection) url.openConnection();
+            
+            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
+                types = new ArrayList<>();
+                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+               		
+		String inputLine;
+		StringBuilder response = new StringBuilder();
+                
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                                               
+                JSONArray object = new JSONArray(response.toString());
+                
+                for(int i = 0 ; i < object.length() ; i++){
+                    JSONObject typeObject = object.getJSONObject(i);
+                    types.add(typeObject.getString("name"));
+                }
+                in.close();
+            }
+        } catch (MalformedURLException e) {
+            System.out.println(e + "pb url");
+        } catch(IOException e){
+            System.out.println(e + "pb d'acces au serveur");
+        }
+    }
+    
+    public Pokedex getPokedex() {
+        return pokedex;
+    }
+
+    public ArrayList<String> getTypes() {
+        return types;
+    }
+
 }
