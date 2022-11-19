@@ -11,14 +11,15 @@ import model.Pokedex;
  *
  * @author FeckNeck
  */
-public abstract class AbstractControleur {
+public abstract class AbstractController {
     
-    protected Pokedex data;
-    
-    public abstract void control();
+    protected static Pokedex pokedex;
      
-    public AbstractControleur(){
+    public AbstractController(){
        
     }
-     
+ 
+    public Pokedex getData() {
+        return pokedex;
+    }
 }

@@ -5,6 +5,7 @@
  */
 package vue;
 
+import controller.ControllerPokemon;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -18,25 +19,25 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import model.Pokedex;
 import model.Pokemon;
-import controller.ControllerRemovePokemon;
+
 /**
  *
  * @author FeckNeck
  */
-public final class VueListe extends AbstractVue implements Observer{
+public final class VueListe extends AbstractVue implements Observer {
 
     private JList liste;
     private final JButton btSuppr = new JButton("Supprimer");
     protected Pokedex data;
-    private Pokemon [] pokedex;
-    
+    private Pokemon[] pokedex;
+
     VueListe(Pokedex pokedex) throws IOException {
         this.data = pokedex;
         initList();
     }
-    
-    public void initList() throws IOException{
-        
+
+    public void initList() throws IOException {
+
         liste = new JList();
         liste.setLayoutOrientation(JList.VERTICAL);
 
@@ -53,29 +54,31 @@ public final class VueListe extends AbstractVue implements Observer{
         this.add(btSuppr, gc);
 
         fillList();
-        liste.setVisibleRowCount(this.getHeight()/8);
+        liste.setVisibleRowCount(this.getHeight() / 6);
         this.pack();
-       
-       btSuppr.addActionListener(new ActionListener() {
+
+        btSuppr.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            
-                if(e.getSource() == btSuppr){ 
-                    int index = liste.getSelectedIndex();
-                    if(index != -1){
-                        ControllerRemovePokemon controller = new ControllerRemovePokemon(data, index);
-                    }
-                }      
-            }            
 
-       });
-       this.pack();
+                if (e.getSource() == btSuppr) {
+                    int index = liste.getSelectedIndex();
+                    if (index != -1) {
+                        ControllerPokemon controllerPokemon;
+                        controllerPokemon = ControllerPokemon.getInstance();
+                        controllerPokemon.removePokemon(index);
+                    }
+                }
+            }
+
+        });
+        this.pack();
     }
 
     private void fillList() {
         pokedex = new Pokemon[data.getPokedex().size()];
 
-        for(int i=0; i < data.getPokedex().size(); i++){
+        for (int i = 0; i < data.getPokedex().size(); i++) {
             pokedex[i] = data.getPokemon(i);
         }
 
@@ -83,12 +86,12 @@ public final class VueListe extends AbstractVue implements Observer{
         liste.setListData(pokedex);
         this.pack();
     }
-        
+
     @Override
     public void update(Observable o, Object arg) {
         this.remove(this);
         fillList();
         this.revalidate();
     }
-    
+
 }

@@ -1,5 +1,6 @@
 package vue;
 
+import controller.ControllerGeneration;
 import java.awt.Dimension;
 import java.util.Observable;
 import java.util.Observer;
@@ -12,21 +13,19 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.general.DatasetUtilities;
-import model.Pokedex;
+import org.jfree.data.category.DefaultCategoryDataset;
 
-public class VueHistogrammeChart extends AbstractVue implements Observer{
+public class VueHistogrammeChart extends AbstractVue implements Observer {
 
     private Histogramme histo;
-    protected Pokedex data;
-    
-    public VueHistogrammeChart(Pokedex data) {        
+
+    public VueHistogrammeChart() {
         histo = new Histogramme();
         this.setContentPane(histo);
         this.pack();
     }
-    
-    public void initHistogramme(){
+
+    public void initHistogramme() {
         histo = new Histogramme();
         this.setContentPane(histo);
         this.pack();
@@ -47,13 +46,23 @@ public class VueHistogrammeChart extends AbstractVue implements Observer{
             this.setPreferredSize(new Dimension(450, 350));
             CategoryDataset dataset = createDataset();
             final JFreeChart chart = createChart(dataset);
-            final ChartPanel chartPanel = new ChartPanel(chart);
             this.setChart(chart);
         }
 
         private CategoryDataset createDataset() {
-            final double[][] data = new double[][]{{10.0, 4.0, 15.0, 14.0}};
-            return DatasetUtilities.createCategoryDataset("Series ", "Category ", data);
+            final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+            ControllerGeneration controllerGen;
+            controllerGen = ControllerGeneration.getInstance();
+
+            for (int i = 0; i < controllerGen.getNbGeneration(); i++) {
+                int nbPokemon = controllerGen.filterGeneration(i);
+                if (nbPokemon > 0) {
+                    dataset.addValue(nbPokemon, "Generation " + i, "Generation " + i);
+                }
+            }
+
+            return dataset;
         }
 
         private JFreeChart createChart(final CategoryDataset dataset) {

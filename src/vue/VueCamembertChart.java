@@ -1,6 +1,6 @@
 package vue;
 
-import controller.ControllerGetTypes;
+import controller.ControllerType;
 import java.awt.Dimension;
 import java.util.Observable;
 import java.util.Observer;
@@ -12,7 +12,6 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.util.Rotation;
 import model.Pokedex;
-import vue.AbstractVue;
 
 public final class VueCamembertChart extends AbstractVue implements Observer{
 
@@ -52,10 +51,13 @@ public final class VueCamembertChart extends AbstractVue implements Observer{
 
         private PieDataset createSampleDataset() {
             final DefaultPieDataset result = new DefaultPieDataset();
-            ControllerGetTypes controllerTypes = new ControllerGetTypes();
-            for(int i = 0; i < controllerTypes.getNbTypes(); i++){
-                String type = controllerTypes.getType(i);
-                int nbPokemon = data.FilterType(type);
+            
+            ControllerType controllerType;
+            controllerType = ControllerType.getInstance();
+            
+            for(int i = 0; i < controllerType.getNbTypes(); i++){
+                String type = controllerType.getType(i);
+                int nbPokemon = controllerType.FilterType(type);
                 if(nbPokemon > 0) {
                     result.setValue(type, nbPokemon);
                 }

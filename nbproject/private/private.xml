@@ -3,7 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/FeckNeck/Desktop/Pokemon-MVC/src/controller/AbstractControleur.java</file>
+            <file>file:/C:/Users/FeckNeck/Desktop/Pokemon-MVC/src/model/ApiRequest.java</file>
+            <file>file:/C:/Users/FeckNeck/Desktop/Pokemon-MVC/src/vue/MainWindow.java</file>
+            <file>file:/C:/Users/FeckNeck/Desktop/Pokemon-MVC/src/vue/VueListe.java</file>
+            <file>file:/C:/Users/FeckNeck/Desktop/Pokemon-MVC/src/vue/VueFilter.java</file>
+            <file>file:/C:/Users/FeckNeck/Desktop/Pokemon-MVC/src/pokemon/mvc/PokemonMvc.java</file>
+            <file>file:/C:/Users/FeckNeck/Desktop/Pokemon-MVC/src/controller/ControllerPokemon.java</file>
         </group>
     </open-files>
 </project-private>
